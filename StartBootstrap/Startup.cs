@@ -8,11 +8,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.Entities;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using StartBootstrap.Data.DataAccesLayer;
-using StartBootstrap.Data.Entities;
+using Data.DataAccesLayer;
 
 namespace StartBootstrap
 {
@@ -28,6 +28,11 @@ namespace StartBootstrap
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<IdentityOptions>(opts =>
+            {
+                opts.SignIn.RequireConfirmedEmail = true;
+            });
+
             services.AddControllersWithViews().AddFluentValidation(v=>v.RegisterValidatorsFromAssemblyContaining<Startup>());
             services.AddDbContext<AppDbContext>(options =>
             {
